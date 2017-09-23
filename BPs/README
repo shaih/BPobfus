@@ -1,0 +1,70 @@
+This directory contains branching programs (BPs) that are used for
+testing the obfuscation software.
+
+A branching program is a vector of tuples of transition-matrices, with
+one entry in the vector for each bit of the input. Each tuple has as
+many transition-matrices as symbols in the alphabet, and we assumes
+that all the matrices in all tuples are square and of the same
+dimension.
+
+The naming scheme for the BPs in this directory is n<X>_L<Y>.txt,
+where X is the dimension of the transition-matrices and Y is the
+length of the program (i.e., the number of tuples, which is the same
+as the number of input bits). For example, a BP for three-bit inputs
+with 2x2 transition matrices is stored at the file n2_L3.txt. (If
+there are multiple BPs with the same length and dimension, they will
+be stored in files n<X>_L<Y>_1.txt, n<X>_L<Y>_2.txt, ...)
+
+The format of the BP in each file is suitable for reading and wirting
+in NTL, specifically the following code can be used to read/write:
+
+  std::fstream fs;
+  fs.open("BPs/n2_L3.txt");
+  NTL::Vec< NTL::Mat<long> > myBP;
+  fs >> myBP;    // read BP from file
+  close(fs);
+
+  std::cout << myBP <<endl; // write BP to stdout
+
+For example, consider the following length-3 BP for input bits with
+2x2 transition matrices:
+
+          input value: | bit=0 | bit=1
+   input bit position  |       |
+   --------------------+-------+-------
+                       | (0 0) | (1 1)
+              1st bit  | (0 1) | (0 1)
+   --------------------+-------+-------
+                       | (1 0) | (1 0)
+              2nd bit  | (0 1) | (0 1)
+   --------------------+-------+-------
+                       | (1 0) | (1 0)
+              3rd bit  | (0 0) | (1 1)
+   --------------------+-------+-------
+
+This BP will be represented as a 3-vector (length=3), with each entry
+in the vector consisting of a pair of matrices (alphabet size=2), and
+all the matrices are 2x2. Specifically, the file n2_L3.txt will be
+as follows (indentation/white-spaces is optional):
+
+    [
+     	[
+		[[0 0][0 1]]
+      		[[1 1][0 1]]
+	]
+     [[[1 0][0 1]]
+      [[1 0][0 1]]]
+     [[[1 0][0 0]]
+      [[1 0][1 1]]]
+    ]
+
+first brackets - the whole branching program
+Example: dim2_sig2_L3.txt:
+In this case, next 3 sub bracket, L = 3 corresponds to how many edges there are, previously called N in the program = L in filename,
+changed to L in program.
+third brackets show nsymbols = 2, = how many rows inside the brackets, not mentioned in filename, size of the alphabet, will be called sigma and added to filenmae
+fourth brackets show 2 2x2 matrices, corresponding to dim=2, previously called n in filename, dim in program, changed to dim in filename
+
+
+
+

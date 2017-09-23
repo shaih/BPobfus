@@ -1,0 +1,200 @@
+This folder holds manufactoring and test programs. The test programs
+test different parts of the program and notify the user if they passed
+or failed
+
+======================================================================
+Included programs:
+======================================================================
+
+initialize: generating private keys for GGH15 MMAPs.
+
+Usage: ./initialize_x [ name=value ]...
+	dim 	dimension of transition matrices  [ default=2 ]
+	L 	length of BP  [ default=3 ]
+	e 	Power of factors  [ default=3 ]
+	sec 	security parameter  [ default=80 ]
+	pipe 	pipe-based output  [ default=1 ]
+	threads number of threads  [ default=#cores-2 ]
+	testDir where to write the obfuscation parameters  [ default=test ]
+
+The program outputs the file 'params.dat' with the various parameters
+to the mmaps directory. It also creates and writes the MMAPs files to
+the file mmaps/n#_v#_sec#.dat.
+
+-------------------------------------------------------------------
+
+obfuscate: obfuscates a branching program
+
+Usage: ./obfuscate_x [ name=value ]...
+	name 	name of BP  [ default=P ]
+	dim 	dimension of transition matrices  [ default=2 ]
+	L 	length of BP  [ default=3 ]
+	sig 	alphabet size  [ default=2 ]
+	pipe 	pipe-based output  [ default=1 ]
+	threads 	number of threads  [ default=#cores-2 ]
+	testDir 	where to write the obfuscated program  [ default=test ]
+	sec 	security parameter  [ default=80 ]
+
+Uses the 'params.dat' file to determines the parameters, and reads
+the secret encoding key from the testDir directory, as well as the
+program to be obfuscated, and writes the obfuscated program to the
+same directory.
+
+-------------------------------------------------------------------
+
+evaluate: evaluate an obfuscated BP on some input
+
+Usage: ./evaluate_x [ name=value ]...
+	name 	name of BP  [ default=P ]
+	dim 	dimension of transition matrices  [ default=2 ]
+	L 	langth of BP  [ default=3 ]
+	threads number of threads  [ default=#cores-2 ]
+	sig 	alphabet size  [ default=2 ]
+	testDir where to write the obfuscated program  [ default=test ]
+	input 	input string of size L  [ default=all zero ]
+
+The program reads the obfuscated program from the directory testDir
+and the input from the command-line parameters, and performs the
+evaluation.
+
+-------------------------------------------------------------------
+
+makeRandomBP: generate a random branching program
+
+Usage: ./makeRandomBP_x [ name=value ]...
+	testDir 	where to write the obfuscated program  [ default=test ]
+	name 	Name of BP  [ default=P ]
+	dim 	dimension of transition matrices  [ default=2 ]
+	L 	langth of BP  [ default=3 ]
+	sig 	alphabet size  [ default=2 ]
+
+
+======================================================================
+======================================================================
+More programs for debugging/testing
+======================================================================
+
+testOBF: test program for the obfus function implementation
+
+Usage: ./testOBF_x [ name=value ]...
+	name 	name of BP  [ default=P ]
+	dim 	dimension of transition matrices  [ default=2 ]
+	sig 	size of the alphabet  [ default=2 ]
+	L 	length of BP  [ default=3 ]
+	sec 	security parameter  [ default=80 ]
+	nTrials number of trials to run  [ default=1 ]
+	testDir where to write the obfuscated program  [ default=test ]
+	pipe 	pipe-based I/O  [ default=0 ]
+	threads how many threads to run  [ default=1 ]
+
+-------------------------------------------------------------------
+
+test_DGSamp - tests sampling a discrete guassian with modolu DiscreteGaussianSampler
+
+Usage: ./test_DGSamp_x [ name=value ]...
+	k 	number of factors (~ log q)  [ default=2 ]
+	n 	the small dimension  [ default=2 ]
+	e 	the power of each factor  [ default=2 ]
+	m 	the dimension m  [ default=0: set as n*(2+k*e) ]
+	nVars 	# of values to check on each side of the mean (in addition to the mean itself), Total vals checked = 2*nVars+1  [ default=2 ]
+
+-------------------------------------------------------------------
+test_CRTmatrix - a program for testing the different functions in the CRTmatrix module. 
+
+Usage: ./test_CRTmatrix_x [ name=value ]...
+	k 	number of factors (~ log q)  [ default=3 ]
+	n 	the small dimension  [ default=5 ]
+	e 	the power of each factor  [ default=3 ]
+	m 	the dimension m  [ default=0: set as n*(2+k*e) ]
+	threads 	how many threads to run  [ default=2 ]
+
+--------------------------------------------------------------------------------------------
+
+test_GenGGH15mmaps - tests generating GGH15 multi linear maps
+
+Usage: ./test_GenGGH15mmaps_x [ name=value ]...
+	NN 	the chain length  [ default=6 ]
+	k 	number of factors  [ default=0: set k=NN ]
+	n 	the small dimension  [ default=7 ]
+	e 	the power of each factor  [ default=3 ]
+	m 	the dimension m  [ default=0: set as n*(2+k*e) ]
+	threads 	how many threads to run  [ default=1 ]
+
+--------------------------------------------------------------------------------------------
+
+
+test_GGH15 - test the GGH15 encoding
+
+Usage: ./test_GGH15_x [ name=value ]...
+	L 	the chain length (in edges)  [ default=3 ]
+	k 	number of factors  [ default=0: heuristic ]
+	n 	the small dimension  [ default=5 ]
+	e 	the power of each factor  [ default=3 ]
+	m 	the dimension m  [ default=0: heuristic ]
+	threads 	how many threads to run  [ default=4 ]
+
+---------------------------------------------------------------------------------------------
+
+test_IO - test reading and writing in the different modules, including in TDMatrixParams, obfus, CRTmatrix, TDmatrix and GGH15mmaps.	
+
+Usage: ./test_IO_x [ name=value ]...
+	k 	number of factors (~ log q)  [ default=2 ]
+	n 	the small dimension  [ default=2 ]
+	e 	the power of each factor  [ default=2 ]
+	m 	the dimension m  [ default=0: set as n*(2+k*e) ]
+	NN 	the multi-linearity degree  [ default=3 ]
+
+-----------------------------------------------------------------------------------------------
+
+testOBF - tests the obfuscation, by initializing, obfuscating a branching program and evaluating the result. If the branching program
+is not provided, than a random one is generated for the test.
+
+Usage: ./testOBF_x [ name=value ]...
+	name 	name of BP  [ default=P ]
+	dim 	dimension of transition matrices  [ default=2 ]
+	sig 	size of the alphabet  [ default=2 ]
+	L 	length of BP  [ default=3 ]
+	sec 	security parameter  [ default=80 ]
+	nTrials 	number of trials to run  [ default=1 ]
+	testDir 	where to write the obfuscated program  [ default=test ]
+	pipe 	pipe-based I/O  [ default=0 ]
+	threads 	how many threads to run  [ default=1 ]
+
+-------------------------------------------------------------------------------------------------
+
+test_sampleG - tests the sampling in the SampleG module
+
+Usage: ./test_sampleG_x [ name=value ]...
+	k 	number of factors (~ log q)  [ default=2 ]
+	n 	the small dimension  [ default=2 ]
+	e 	the power of each factor  [ default=2 ]
+
+------------------------------------------------------------------------------------------------------
+
+test_TDmatrix - a program for testing the TDMatrix module
+prints out PASS/FAIL information. If a certain bit fails,
+the bit index is returned in the message
+
+Usage: ./test_TDmatrix_x [ name=value ]...
+	k 	number of factors (~ log q)  [ default=2 ]
+	n 	the small dimension  [ default=2 ]
+	e 	the power of each factor  [ default=2 ]
+	m 	the dimension m  [ default=0: set as n*(2+k*e) ]
+
+-----------------------------------------------------------------------------------------------------
+
+test_timing - test program for timing the initialization, obfuscation and evaluation, using different
+parameters and threads number
+
+Usage: ./test_timing_x [ name=value ]...
+	name 	name of BP  [ default=P ]
+	dim 	dimension of transition matrices  [ default=2 ]
+	sig 	size of the alphabet  [ default=2 ]
+	L 	length of BP  [ default=3 ]
+	sec 	security parameter  [ default=80 ]
+	nTrials 	number of trials to run  [ default=1 ]
+	pipe 	pipe-based I/O  [ default=0 ]
+	testDir 	where to write the obfuscated program  [ default=test ]
+	threads 	how many threads to run  [ default=1 ]
+
+
